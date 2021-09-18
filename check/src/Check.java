@@ -1,10 +1,9 @@
 import java.io.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
+import java.util.regex.Pattern;
 
 public class Check {
-
     private static final String orig = "check/testText2/orig.txt";
     private static final String orig_add = "check/testText2/orig_0.8_add.txt";
     private static final String orig_del = "E:\\CODE\\ruan_jian_gong_cheng\\3119005438\\check\\testText2\\orig_0.8_del.txt";
@@ -12,34 +11,11 @@ public class Check {
     private static final String orig_dis_10 = "E:\\CODE\\ruan_jian_gong_cheng\\3119005438\\check\\testText2\\orig_0.8_dis_10.txt";
     private static final String orig_dis_15 = "E:\\CODE\\ruan_jian_gong_cheng\\3119005438\\check\\testText2\\orig_0.8_dis_15.txt";
 
-    public static void main(String[] args) {
-        ArrayList<String> origList = null, testList = null;
-        ArrayList<Float> rate = new ArrayList<>();
-        try {
-            origList = splitText(getText(orig));
-            testList = splitText(getText(orig_add));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-//        if (origList != null && testList != null) {
-//            int length = Math.min(origList.size(), testList.size());
-//            int index = 0;
-//            while (index < length) {
-//                rate.add(KMP(origList.get(index), testList.get(index)));
-//                index++;
-//            }
-//        }
-//        float all = 0;
-//        for (Float aFloat : rate) {
-//            all += aFloat;
-//        }
-//        System.out.println(all / rate.size());
-        float result = 0;
-        if (origList != null && testList != null) {
-            String[] o = new String[origList.size()];
-            String[] t = new String[testList.size()];
-            result = kmp(origList.toArray(o), testList.toArray(t));
-        }
+    public static void main(String[] args) throws IOException {
+        String[] origList, testList;
+        origList = splitText(getText(orig));
+        testList = splitText(getText(orig_add));
+        float result = kmp(origList, testList);
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
         System.out.println(decimalFormat.format(result));
     }
@@ -52,35 +28,43 @@ public class Check {
      * @throws IOException 文件找不到的异常
      */
     private static String getText(String dir) throws IOException {
-        String text;
+        String text = null;
         File file = new File(dir);
         InputStream is = new FileInputStream(file);
         byte[] bytes = new byte[is.available()];
-        is.read(bytes);
-        text = new String(bytes);
-        is.close();
+        if (is.read(bytes) != -1) {
+            text = new String(bytes);
+            is.close();
+        }
         return text;
     }
 
     /**
-     * 将一大段文字按逗号、句号和换行分割开来，并且将句子里的空格删除
+     * 将一大段文字先按双引号分开，再按逗号、句号、感叹号、问号、省略号分开，最后把句子中的符号全部删除
+     * 这样设计是为了让双引号内的话不被独立开来，否则语义就会变得很奇怪
      *
      * @param text 原来的文段
      * @return 切割后的句子列表
      */
-    private static ArrayList<String> splitText(String text) {
-        StringTokenizer st = new StringTokenizer(text, "(，|。\n)+?", true);
+    private static String[] splitText(String text) {
+//        Pattern p = Pattern.compile("[。！…][^”]|[。！…]$|[，\n\r]");
+        Pattern p = Pattern.compile("[，。！？…\n\r]");
+        Pattern pattern = Pattern.compile("[，。！…？][”]|[\n\r]");
+        String[] array = pattern.split(text);
         ArrayList<String> list = new ArrayList<>();
-        while (st.hasMoreElements()) {
-            String temp = st.nextToken();
-            if (!temp.matches("(，|。|\n)+?")) {
-                while (temp.contains(" ")) {
-                    temp = temp.replace(" ", "");
+        for (String s1 : array) {
+            String[] t = p.split(s1);
+            for (String temp : t) {
+                while (temp.matches(".*[“”，。？！…：]+.*")) {
+                    temp = temp.replaceAll("([“”，。？！…：]|\\s)+", "");
                 }
-                list.add(temp);
+                if (!temp.equals("")) {
+                    list.add(temp);
+                }
             }
         }
-        return list;
+        String[] convert = new String[list.size()];
+        return list.toArray(convert);
     }
 
     /**
@@ -108,12 +92,19 @@ public class Check {
         return ((float) length / detect.length());
     }
 
+    /**
+     * 判断两个字符串数组的相似度，思路是将每一对字符串的相似度累加起来，然后除以数组的长度
+     *
+     * @param orig   原本的字符串数组
+     * @param detect 被检测的字符串数组
+     * @return 两个字符串数组的相似度
+     */
     private static float kmp(String[] orig, String[] detect) {
-        float DuplicationRate = 0.0f;//整个文本的相似度
+        float DuplicationRate = 0.0f;// 整个文本的相似度
         for (String s1 : detect) {
-            float maxDuplicationRate = 0.0f;//某一行文本的相似度
+            float maxDuplicationRate = 0.0f;// 某一行文本的相似度
             for (String s2 : orig) {
-                float tempRate = detect(s1, s2);//detect方法检测这两个语句的相似度
+                float tempRate = detect(s1, s2);// detect方法检测这两个语句的相似度
                 if (tempRate > maxDuplicationRate) {
                     maxDuplicationRate = tempRate;
                 }
