@@ -1,2 +1,10 @@
 2021-09-19 15:10:47
 E:\\CODE\\ruan_jian_gong_cheng\\3119005438\\check/testText2/orig.txt 与 E:\\CODE\\ruan_jian_gong_cheng\\3119005438\\check/testText2/orig_0.8_add.txt 匹配的相似度为：0.75
+2021-09-19 15:59:39
+E:\\CODE\\ruan_jian_gong_cheng\\3119005438\\check/testText2/orig.txt 与 E:/CODE/ruan_jian_gong_cheng/3119005438/check/testText2/orig_0.8_del.txt 匹配的相似度为：0.69
+2021-09-19 15:59:57
+E:\\CODE\\ruan_jian_gong_cheng\\3119005438\\check/testText2/orig.txt 与 E:/CODE/ruan_jian_gong_cheng/3119005438/check/testText2/orig_0.8_dis_1.txt 匹配的相似度为：0.94
+2021-09-19 16:00:10
+E:\\CODE\\ruan_jian_gong_cheng\\3119005438\\check/testText2/orig.txt 与 E:/CODE/ruan_jian_gong_cheng/3119005438/check/testText2/orig_0.8_dis_10.txt 匹配的相似度为：0.81
+2021-09-19 16:00:24
+E:\\CODE\\ruan_jian_gong_cheng\\3119005438\\check/testText2/orig.txt 与 E:/CODE/ruan_jian_gong_cheng/3119005438/check/testText2/orig_0.8_dis_15.txt 匹配的相似度为：0.64
