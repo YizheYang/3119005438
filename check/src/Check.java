@@ -65,7 +65,9 @@ public class Check {
     private static void outPut(String orig, String detect, String target, String result) throws IOException {
         File file = new File(target);
         if (!file.exists()) {
-            file.createNewFile();
+            if (!file.createNewFile()) {
+                return;
+            }
         }
         FileOutputStream fos = new FileOutputStream(file.getAbsolutePath(), true);
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos, StandardCharsets.UTF_8));
