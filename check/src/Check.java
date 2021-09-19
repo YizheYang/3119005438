@@ -91,8 +91,8 @@ public class Check {
         if (text == null) {
             return null;
         }
-        Pattern p1 = Pattern.compile("[，。！…？][”]|[\n\r]");
-        Pattern p2 = Pattern.compile("[，。！？…\n\r]");
+        Pattern p1 = Pattern.compile("[，。！…？][”]|[\n\r]");// 按双引号和空白分开
+        Pattern p2 = Pattern.compile("[，。！？…\n\r]");// 按逗号、句号、感叹号、问号、省略号、空格分开
         String[] array = p1.split(text);
         ArrayList<String> list = new ArrayList<>();
         for (String s1 : array) {
@@ -119,13 +119,13 @@ public class Check {
      */
     private static float detect(String orig, String detect) {
         int i, j;
-        int length = 0;
-        int tempLength;
+        int length = 0;// 最大公共子串长度
+        int tempLength;// 临时公共子串长度
         for (j = 0; j < detect.length() || j < orig.length(); j++) {
             tempLength = 0;
             for (i = j + 1; i <= detect.length(); i++) {
-                if (orig.contains(detect.substring(j, i))) {
-                    tempLength = i - j;
+                if (orig.contains(detect.substring(j, i))) {// 一点点切割，从第一个字开始切割，依次递增切割
+                    tempLength = i - j;// 包含切割后的子串，则最大长度+1，然后增加一个字符长度进入下一次判断
                 } else {
                     break;
                 }
