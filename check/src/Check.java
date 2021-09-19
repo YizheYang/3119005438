@@ -1,23 +1,32 @@
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class Check {
-    private static final String orig = "check/testText2/orig.txt";
-    private static final String orig_add = "check/testText2/orig_0.8_add.txt";
+    private static final String orig = "E:/CODE/ruan_jian_gong_cheng/3119005438/check/testText2/orig.txt";
+    private static final String orig_add = "E:/CODE/ruan_jian_gong_cheng/3119005438/check/testText2/orig_0.8_add.txt";
     private static final String orig_del = "E:\\CODE\\ruan_jian_gong_cheng\\3119005438\\check\\testText2\\orig_0.8_del.txt";
     private static final String orig_dis_1 = "E:\\CODE\\ruan_jian_gong_cheng\\3119005438\\check\\testText2\\orig_0.8_dis_1.txt";
     private static final String orig_dis_10 = "E:\\CODE\\ruan_jian_gong_cheng\\3119005438\\check\\testText2\\orig_0.8_dis_10.txt";
     private static final String orig_dis_15 = "E:\\CODE\\ruan_jian_gong_cheng\\3119005438\\check\\testText2\\orig_0.8_dis_15.txt";
+    private static final String result = "E:\\CODE\\ruan_jian_gong_cheng\\3119005438\\check/result.txt";
 
     public static void main(String[] args) throws IOException {
         String[] origList, testList;
-        origList = splitText(getText(orig));
-        testList = splitText(getText(orig_del));
+        origList = splitText(getText(args[0]));
+        testList = splitText(getText(args[1]));
         float result = kmp(origList, testList);
-        DecimalFormat decimalFormat = new DecimalFormat("0.00");
-        System.out.println(decimalFormat.format(result));
+        if (result != -1) {
+            DecimalFormat decimalFormat = new DecimalFormat("0.00");
+            outPut(args[0], args[1], args[2], decimalFormat.format(result));
+            System.out.println("匹配完成，结果已输出到：" + args[2]);
+        } else {
+            System.out.println("匹配失败，请检查匹配文件是否存在！");
+        }
     }
 
     /**
@@ -28,15 +37,45 @@ public class Check {
      * @throws IOException 文件找不到的异常
      */
     private static String getText(String dir) throws IOException {
-        String text = null;
+        String text;
         File file = new File(dir);
-        InputStream is = new FileInputStream(file);
-        byte[] bytes = new byte[is.available()];
-        if (is.read(bytes) != -1) {
-            text = new String(bytes);
-            is.close();
+        if (!file.exists()) {
+            return null;
         }
-        return text;
+        InputStreamReader isr = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
+        BufferedReader br = new BufferedReader(isr);
+        StringBuilder sb = new StringBuilder();
+        while ((text = br.readLine()) != null) {
+            sb.append(text).append("\n");
+        }
+        br.close();
+        isr.close();
+        return sb.toString();
+    }
+
+    /**
+     * 将结果输出到指定的文件
+     *
+     * @param orig   原文的地址
+     * @param detect 被检测的文件的地址
+     * @param target 输出结果的地址
+     * @param result 查重的结果
+     * @throws IOException 文件找不到的异常
+     */
+    private static void outPut(String orig, String detect, String target, String result) throws IOException {
+        File file = new File(target);
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+        FileOutputStream fos = new FileOutputStream(file.getAbsolutePath(), true);
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos, StandardCharsets.UTF_8));
+        LocalDateTime ldt = LocalDateTime.now();
+        bw.write(ldt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        bw.newLine();
+        bw.write(orig + " 与 " + detect + " 匹配的相似度为：" + result);
+        bw.newLine();
+        bw.close();
+        fos.close();
     }
 
     /**
@@ -47,6 +86,9 @@ public class Check {
      * @return 切割后的句子列表
      */
     private static String[] splitText(String text) {
+        if (text == null) {
+            return null;
+        }
         Pattern p1 = Pattern.compile("[，。！…？][”]|[\n\r]");
         Pattern p2 = Pattern.compile("[，。！？…\n\r]");
         String[] array = p1.split(text);
@@ -99,6 +141,9 @@ public class Check {
      * @return 两个字符串数组的相似度
      */
     private static float kmp(String[] orig, String[] detect) {
+        if (orig == null || detect == null) {
+            return -1;
+        }
         float DuplicationRate = 0.0f;// 整个文本的相似度
         for (String s1 : detect) {
             float maxDuplicationRate = 0.0f;// 某一行文本的相似度
