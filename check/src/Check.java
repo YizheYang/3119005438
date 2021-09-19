@@ -14,7 +14,7 @@ public class Check {
     public static void main(String[] args) throws IOException {
         String[] origList, testList;
         origList = splitText(getText(orig));
-        testList = splitText(getText(orig_add));
+        testList = splitText(getText(orig_del));
         float result = kmp(origList, testList);
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
         System.out.println(decimalFormat.format(result));
@@ -47,15 +47,14 @@ public class Check {
      * @return 切割后的句子列表
      */
     private static String[] splitText(String text) {
-//        Pattern p = Pattern.compile("[。！…][^”]|[。！…]$|[，\n\r]");
-        Pattern p = Pattern.compile("[，。！？…\n\r]");
-        Pattern pattern = Pattern.compile("[，。！…？][”]|[\n\r]");
-        String[] array = pattern.split(text);
+        Pattern p1 = Pattern.compile("[，。！…？][”]|[\n\r]");
+        Pattern p2 = Pattern.compile("[，。！？…\n\r]");
+        String[] array = p1.split(text);
         ArrayList<String> list = new ArrayList<>();
         for (String s1 : array) {
-            String[] t = p.split(s1);
+            String[] t = p2.split(s1);
             for (String temp : t) {
-                while (temp.matches(".*[“”，。？！…：]+.*")) {
+                while (temp.matches(".*([“”，。？！…：]|\\s)+.*")) {
                     temp = temp.replaceAll("([“”，。？！…：]|\\s)+", "");
                 }
                 if (!temp.equals("")) {
@@ -68,11 +67,11 @@ public class Check {
     }
 
     /**
-     * 判断两个字符串的重复率
+     * 判断两个字符串的相似度，原理是最长公共子串长度除以被检测的字符串长度
      *
      * @param orig   原本的句子
      * @param detect 要被检测的句子
-     * @return 重复率
+     * @return 相似度
      */
     private static float detect(String orig, String detect) {
         int i, j;
@@ -108,12 +107,12 @@ public class Check {
                 if (tempRate > maxDuplicationRate) {
                     maxDuplicationRate = tempRate;
                 }
-                if (maxDuplicationRate == 1.0) {
+                if (maxDuplicationRate == 1.0) {// 当相似度为1说明两个字符串一样
                     break;
                 }
             }
             DuplicationRate += maxDuplicationRate;
         }
-        return (DuplicationRate / orig.length);
+        return (DuplicationRate / orig.length);// 相似度之和除以字符串数组长度得出平均
     }
 }
