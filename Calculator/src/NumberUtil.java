@@ -5,6 +5,13 @@
  * date 2021.10.19 下午 5:51
  **/
 public class NumberUtil {
+    /**
+     * 假分数转真分数
+     *
+     * @param numerator   分子
+     * @param denominator 分母
+     * @return 真分数
+     */
     public static String trueFraction(int numerator, int denominator) {
         if (denominator == 0) {
             return null;
