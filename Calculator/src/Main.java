@@ -15,7 +15,6 @@ public class Main {
 
     public static void main(String[] args) {
         handleArgument(args);
-        System.out.println(NumberUtil.trueFraction(0, 0));
     }
 
     private static void handleArgument(String[] args) {
