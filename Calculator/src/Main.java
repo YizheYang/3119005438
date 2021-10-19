@@ -15,8 +15,7 @@ public class Main {
 
     public static void main(String[] args) {
         handleArgument(args);
-        System.out.println(num);
-        System.out.println(range);
+        System.out.println(NumberUtil.trueFraction(0, 0));
     }
 
     private static void handleArgument(String[] args) {
@@ -46,6 +45,12 @@ public class Main {
         }
         if (generateMode == judgeMode) {
             throw new IllegalArgumentException("wrong argument:confirm mode is generate or judge?");
+        }
+        if (num < 1) {
+            throw new IllegalArgumentException("wrong argument:-n must bigger than 0");
+        }
+        if (range < 1) {
+            throw new IllegalArgumentException("wrong argument:-r must bigger than 0");
         }
     }
 }
