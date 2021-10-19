@@ -28,24 +28,42 @@ public class Check {
                 }
             }
         }
-        float res = parameter[0];
+        String res = String.valueOf(parameter[0]);
         for (int i = 0; i < type.length; i++) {
             switch (type[i]) {
-                case "+" -> res += parameter[i + 1];
-                case "-" -> {
-                    res -= parameter[i + 1];
-                    if (res < 0) {
-                        return true;
+                case "+" -> {
+                    res = Fraction.add(res, parameter[i + 1] + " / 1");
+                    if (res.equals("1")) {
+                        res = "1 / 1";
                     }
                 }
-                case "*" -> res *= parameter[i + 1];
-                case "/" -> res /= parameter[i + 1];
+                case "-" -> {
+                    res = Fraction.subtract(res, parameter[i + 1] + " / 1");
+                    if (res.toCharArray()[0] == '-') {
+                        return true;
+                    }
+                    if (res.equals("1")) {
+                        res = "1 / 1";
+                    }
+                }
+                case "*" -> {
+                    res = Fraction.multiply(res, parameter[i + 1] + " / 1");
+                    if (res.equals("1")) {
+                        res = "1 / 1";
+                    }
+                }
+                case "/" -> {
+                    res = Fraction.divide(res, parameter[i + 1] + " / 1");
+                    if (res.equals("1")) {
+                        res = "1 / 1";
+                    }
+                }
             }
         }
         return false;
     }
 
-    public static float calculate(String formula) {
+    public static String calculate(String formula) {
         String[] strings = formula.split(" ");
         String[] type = new String[strings.length / 2];
         int[] parameter = new int[strings.length / 2 + 1];
@@ -61,14 +79,38 @@ public class Check {
                 }
             }
         }
-        float res = parameter[0];
+        String res = String.valueOf(parameter[0]);
         for (int i = 0; i < type.length; i++) {
             switch (type[i]) {
-                case "+" -> res += parameter[i + 1];
-                case "-" -> res -= parameter[i + 1];
-                case "*" -> res *= parameter[i + 1];
-                case "/" -> res /= parameter[i + 1];
+                case "+" -> {
+                    res = Fraction.add(res, parameter[i + 1] + " / 1");
+                    if (res.equals("1")) {
+                        res = "1 / 1";
+                    }
+                }
+                case "-" -> {
+                    res = Fraction.subtract(res, parameter[i + 1] + " / 1");
+                    if (res.equals("1")) {
+                        res = "1 / 1";
+                    }
+                }
+                case "*" -> {
+                    res = Fraction.multiply(res, parameter[i + 1] + " / 1");
+                    if (res.equals("1")) {
+                        res = "1 / 1";
+                    }
+                }
+                case "/" -> {
+                    res = Fraction.divide(res, parameter[i + 1] + " / 1");
+                    if (res.equals("1")) {
+                        res = "1 / 1";
+                    }
+                }
             }
+        }
+        String[] temp = res.split(" / ");
+        if (temp.length == 2 && temp[1].equals("1")) {
+            return temp[0];
         }
         return res;
     }
