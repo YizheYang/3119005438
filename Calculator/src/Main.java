@@ -15,6 +15,25 @@ public class Main {
 
     public static void main(String[] args) {
         handleArgument(args);
+        generate();
+    }
+
+    /**
+     * 生成题目及答案并保存
+     */
+    private static void generate() {
+        StringBuilder sb_question = new StringBuilder();
+        StringBuilder sb_answer = new StringBuilder();
+        Generate generate = new Generate(range);
+        for (int i = 0; i < num; i++) {
+            String[] temp = generate.safeRandomGenerate();
+            sb_question.append(i + 1).append(".").append(temp[0]).append("\n");
+            sb_answer.append(i + 1).append(".").append(temp[1]).append("\n");
+        }
+        sb_question.deleteCharAt(sb_question.length() - 1);
+        sb_answer.deleteCharAt(sb_answer.length() - 1);
+        FileUtil.outPut("./Exercises.txt", sb_question.toString());
+        FileUtil.outPut("./Answer.txt", sb_answer.toString());
     }
 
     private static void handleArgument(String[] args) {

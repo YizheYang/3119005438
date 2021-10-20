@@ -142,12 +142,12 @@ public class Fraction {
     }
 
     /**
-     * 假分数转真分数
+     * 对分数进行检查并转换格式
      *
      * @param fraction 分数
      * @return 真分数
      */
-    public static String improper2Proper(String fraction) {
+    public static String checkFraction(String fraction) {
         String[] s = fraction.split(" / ");
         int numerator = Integer.parseInt(s[0]);
         int denominator = Integer.parseInt(s[1]);

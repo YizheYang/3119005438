@@ -63,11 +63,12 @@ public class Generate {
      *
      * @return 过程中不出现负数的随机题目
      */
-    public String safeRandomGenerate() {
+    public String[] safeRandomGenerate() {
         String res = randomGenerate();
         while (Check.checkNegative(res)) {
             res = randomGenerate();
         }
-        return res;
+        String ans = Check.calculate(res);
+        return new String[]{res, ans};
     }
 }

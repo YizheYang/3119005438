@@ -51,13 +51,9 @@ public class FileUtil {
                     return;
                 }
             }
-            FileOutputStream fos = new FileOutputStream(file.getAbsolutePath(), true);
+            FileOutputStream fos = new FileOutputStream(file.getAbsolutePath());
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos, StandardCharsets.UTF_8));
-            LocalDateTime ldt = LocalDateTime.now();
-            bw.write(ldt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-            bw.newLine();
-            bw.write("匹配的相似度为：" + result);
-            bw.newLine();
+            bw.write(result);
             bw.close();
             fos.close();
         } catch (IOException e) {
