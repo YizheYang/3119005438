@@ -7,7 +7,7 @@ import java.util.Random;
  * date 2021.10.19 下午 5:50
  **/
 public class Generate {
-    int range;
+    private final int range;
 
     Generate(int range) {
         this.range = range;
@@ -27,7 +27,7 @@ public class Generate {
      *
      * @return 题目字符串
      */
-    public String randomGenerate() {
+    private String randomGenerate() {
         Random random = new Random();
         int typeNum = random.nextInt(4);
         // 防止运算符数量为0
@@ -56,5 +56,18 @@ public class Generate {
             sb.append(parameter[i + 1]);
         }
         return sb.toString();
+    }
+
+    /**
+     * 生成过程中不出现负数的随机题目
+     *
+     * @return 过程中不出现负数的随机题目
+     */
+    public String safeRandomGenerate() {
+        String res = randomGenerate();
+        while (Check.checkNegative(res)) {
+            res = randomGenerate();
+        }
+        return res;
     }
 }
