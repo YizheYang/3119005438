@@ -8,6 +8,13 @@ import java.util.ArrayList;
  * date 2021.10.19 下午 5:50
  **/
 public class Judge {
+    /**
+     * 对题目进行计算并且和答案比较
+     *
+     * @param e 题目
+     * @param a 答案
+     * @return 判断
+     */
     public static boolean[] compare(String[] e, String[] a) {
         if (e.length != a.length) {
             throw new IllegalArgumentException("Wrong File Length!");
@@ -20,5 +27,4 @@ public class Judge {
         }
         return record;
     }
-
 }

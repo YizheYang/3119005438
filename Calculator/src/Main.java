@@ -7,7 +7,6 @@
 public class Main {
     static boolean generateMode = false;
     static boolean judgeMode = false;
-
     static String exerciseFilePath;
     static String answerFilePath;
     static int num = 1;
@@ -22,6 +21,9 @@ public class Main {
         }
     }
 
+    /**
+     * 对输入的答案进行判断
+     */
     private static void judge() {
         if (exerciseFilePath == null || answerFilePath == null) {
             throw new IllegalArgumentException("wrong argument:path is null");
@@ -89,6 +91,11 @@ public class Main {
         FileUtil.outPut("./Answer.txt", sb_answer.toString());
     }
 
+    /**
+     * 识别处理参数
+     *
+     * @param args 参数
+     */
     private static void handleArgument(String[] args) {
         if (args.length < 1 || args.length > 4) {
             throw new IllegalArgumentException("wrong argument:argument's number is wrong!");

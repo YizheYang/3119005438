@@ -23,7 +23,7 @@ public class Fraction {
             if (numerator == denominator) {
                 res = "1";
             } else {
-                int temp = gy(numerator, denominator);
+                int temp = gcd(numerator, denominator);
                 res = numerator / temp + " / " + denominator / temp;
             }
         } else if (c.length == 2) {
@@ -32,7 +32,7 @@ public class Fraction {
             if (numerator == denominator) {
                 res = "1";
             } else {
-                int temp = gy(numerator, denominator);
+                int temp = gcd(numerator, denominator);
                 res = numerator / temp + " / " + denominator / temp;
             }
         }
@@ -57,7 +57,7 @@ public class Fraction {
             if (numerator == denominator) {
                 res = "1";
             } else {
-                int temp = gy(numerator, denominator);
+                int temp = gcd(numerator, denominator);
                 res = numerator / temp + " / " + denominator / temp;
             }
         } else if (c.length == 2) {
@@ -66,7 +66,7 @@ public class Fraction {
             if (numerator == denominator) {
                 res = "1";
             } else {
-                int temp = gy(numerator, denominator);
+                int temp = gcd(numerator, denominator);
                 res = numerator / temp + " / " + denominator / temp;
             }
         }
@@ -91,7 +91,7 @@ public class Fraction {
             if (numerator == denominator) {
                 res = "1";
             } else {
-                int temp = gy(numerator, denominator);
+                int temp = gcd(numerator, denominator);
                 res = numerator / temp + " / " + denominator / temp;
             }
         } else if (c.length == 2) {
@@ -100,7 +100,7 @@ public class Fraction {
             if (numerator == denominator) {
                 res = "1";
             } else {
-                int temp = gy(numerator, denominator);
+                int temp = gcd(numerator, denominator);
                 res = numerator / temp + " / " + denominator / temp;
             }
         }
@@ -125,7 +125,7 @@ public class Fraction {
             if (numerator == denominator) {
                 res = "1";
             } else {
-                int temp = gy(numerator, denominator);
+                int temp = gcd(numerator, denominator);
                 res = numerator / temp + " / " + denominator / temp;
             }
         } else if (c.length == 2) {
@@ -134,7 +134,7 @@ public class Fraction {
             if (numerator == denominator) {
                 res = "1";
             } else {
-                int temp = gy(numerator, denominator);
+                int temp = gcd(numerator, denominator);
                 res = numerator / temp + " / " + denominator / temp;
             }
         }
@@ -176,8 +176,8 @@ public class Fraction {
      * @param n 数2
      * @return 最大公约数
      */
-    private static int gy(int m, int n) {
+    private static int gcd(int m, int n) {
         if (m % n == 0) return n;
-        return gy(n, m % n);
+        return gcd(n, m % n);
     }
 }
