@@ -76,15 +76,12 @@ public class Check {
         String[] strings = formula.split(" ");
         String[] type = new String[strings.length / 2];
         List<Integer> parameter = new ArrayList<>();
-        for (int i = 0, j = 0, k = 0; i < strings.length; i++) {
+        for (int i = 0, j = 0; i < strings.length; i++) {
             switch (i % 2) {
-                case 0 -> {
-                    parameter.add(Integer.parseInt(strings[i]));
-                    j++;
-                }
+                case 0 -> parameter.add(Integer.parseInt(strings[i]));
                 case 1 -> {
-                    type[k] = strings[i];
-                    k++;
+                    type[j] = strings[i];
+                    j++;
                 }
             }
         }

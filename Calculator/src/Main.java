@@ -82,7 +82,7 @@ public class Main {
         Generate generate = new Generate(range);
         for (int i = 0; i < num; i++) {
             String[] temp = generate.safeRandomGenerate();
-            sb_question.append(i + 1).append(": ").append(temp[0]).append("\n");
+            sb_question.append(i + 1).append(": e = ").append(temp[0]).append("\n");
             sb_answer.append(i + 1).append(": ").append(temp[1]).append("\n");
         }
         sb_question.deleteCharAt(sb_question.length() - 1);

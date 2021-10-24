@@ -22,7 +22,7 @@ public class Judge {
         int length = e.length;
         boolean[] record = new boolean[length];
         for (int i = 0; i < length; i++) {
-            String correct = Check.calculate(e[i].split(": ")[1]);
+            String correct = Check.calculate(e[i].split(": e = ")[1]);
             record[i] = a[i].split(": ")[1].equals(correct);
         }
         return record;
